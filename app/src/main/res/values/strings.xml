@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Reminder</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="time">Time:</string>
+    <string name="date">Date:</string>
+    <string name="title">Title:</string>
+    <string name="event_name">введите имя события</string>
+    <string name="date_event">укажите дату события</string>
+    <string name="description">Description:</string>
+    <string name="btnSaveEvent">Save Event</string>
+    <string name="timeEditEvent">укажите время события</string>
+</resources>
