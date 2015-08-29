@@ -21,6 +21,7 @@
     <EditText
         android:id="@+id/editTitle"
         android:hint="@string/event_name"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -101,6 +102,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="@string/description"
         android:id="@+id/editDescription"
         android:layout_below="@+id/textView4"

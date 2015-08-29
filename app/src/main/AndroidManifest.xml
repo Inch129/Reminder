@@ -3,8 +3,9 @@
     package="com.example.mercury.reminder" >
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <application
+        android:launchMode="singleInstance"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <receiver android:name=".ToServiceReceiver"/>
+
+        <receiver android:name=".ToServiceReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="SendAndNotificate"></action>
+            </intent-filter>
+        </receiver>
 
     </application>
 

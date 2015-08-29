@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,8 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
 
@@ -35,17 +36,19 @@ public class MainActivity extends ActionBarActivity {
     private Editor editor;
     private AlarmManager alarmManager;
     private ToServiceReceiver receiver;
+
     @Override
     protected void onResume() {
         super.onResume();
+        //проверка, на всякий случай
         if (sp.contains("date") && sp.contains("time") && sp.contains("title")) {
+            //устанавливаем все данные указанные пользователем во вьюхи
             editTitle.setText(sp.getString("title", ""));
             editDate.setText(sp.getString("date", ""));
             editTime.setText(sp.getString("time", ""));
             editDescription.setText(sp.getString("description", ""));
         }
-        receiver = new ToServiceReceiver();
-        this.registerReceiver(receiver,)
+
     }
 
     @Override
@@ -70,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
                 showTimePickerDialog(v);
             }
         });
-        //ждем, когда пользователь вызовет диалог с выбором даты
+
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    //диалог с выбором времени
     public void showTimePickerDialog(View v) {
         TimePickerDialog timeDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -102,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
         timeDialog.show();
     }
 
+    //диалог с выбором даты
     public void showDatePickerDialog() {
 
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -136,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
             return;
         }
 
-        if(editTitle.length() == 0){
+        if (editTitle.length() == 0) {
             editTitle.setError("Вы должны ввести заголовок напоминания");
             return;
         }
@@ -146,31 +151,23 @@ public class MainActivity extends ActionBarActivity {
         editor.putString("time", editTime.getText().toString());
         editor.putString("description", editDescription.getText().toString());
         editor.apply();
-        total = calendar.getTime().getTime();
+        total = calendar.getTimeInMillis();
         Toast.makeText(getApplicationContext(), "Напоминание сохранено", Toast.LENGTH_SHORT).show();
-    //   sendToNotificate();
+        prepareNotification();
+
     }
-
-
-    private void restartNotify() {
+    //кладем имплисити интент в аларм менеджер, который вызовет его в указанное пользователем время.
+    private void prepareNotification() {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ToServiceReceiver.class);
+        Intent intent = new Intent();
+        intent.setAction("SendAndNotificate");
+        intent.putExtra("заголовок", sp.getString("title", ""));
+        intent.putExtra("описание", sp.getString("description", ""));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT );
-
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //на случай, если уже было зарегистрировано событие
         alarmManager.cancel(pendingIntent);
-// Устанавливаем разовое напоминание
+
         alarmManager.set(AlarmManager.RTC_WAKEUP, total, pendingIntent);
     }
-
-
-  /*  private void sendToNotificate(){
-        Intent dataIntent = new Intent("test");
-        dataIntent.putExtra("title",sp.getString("title", ""));
-        dataIntent.putExtra("date", sp.getString("date",""));
-        dataIntent.putExtra("time",sp.getString("time",""));
-        dataIntent.putExtra("description",sp.getString("description",""));
-
-    }*/
-
 }
