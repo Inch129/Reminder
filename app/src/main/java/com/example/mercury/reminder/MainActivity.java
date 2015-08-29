@@ -15,10 +15,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
 
@@ -65,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         sp = getPreferences(MODE_PRIVATE);
         editor = sp.edit();
-
 
         editTime.setOnClickListener(new View.OnClickListener() {
             @Override
