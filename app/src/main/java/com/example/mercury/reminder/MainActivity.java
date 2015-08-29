@@ -65,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         sp = getPreferences(MODE_PRIVATE);
         editor = sp.edit();
-        //ждем, когда пользователь вызовет диалог с выбором времени
+
+
         editTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,9 +128,10 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    //пользователь сохраняет введенные данные
+    //производим валидацию на отсутствие даты\времени
     private void saveAndValidateInformation() {
-        //пользователь сохраняет введенные данные
-        //производим валидацию на отсутствие даты\времени
+
 
         if (editDate.length() == 0) {
             editDate.setError("Вы должны указать дату");
@@ -156,6 +158,7 @@ public class MainActivity extends ActionBarActivity {
         prepareNotification();
 
     }
+
     //кладем имплисити интент в аларм менеджер, который вызовет его в указанное пользователем время.
     private void prepareNotification() {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
