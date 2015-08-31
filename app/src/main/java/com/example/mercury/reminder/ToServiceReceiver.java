@@ -30,7 +30,7 @@ public class ToServiceReceiver extends BroadcastReceiver {
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.notification_template_icon_bg);
         builder.setAutoCancel(true);
-        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE| Notification.DEFAULT_LIGHTS);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, builder.build());

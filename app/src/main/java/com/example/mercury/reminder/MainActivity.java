@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
 
@@ -110,12 +112,26 @@ public class MainActivity extends ActionBarActivity {
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                //Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH
                 Log.d("TAG", "onDateSet is beggining");
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.YEAR, year);
-                editDate.setText(dtDate.format((calendar.getTime())));
+                    //К сожалению, время вернуть нельзя, и если пользователь захочет это сделать
+                 //то мы ему об этом напомним
+                if (calendar.get(Calendar.YEAR) > year ||
+                        calendar.get(Calendar.MONTH) > monthOfYear ||
+                        calendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth) {
+                    editDate.setText("Введена неверная дата");
+                    editDate.setError("");
+                    return;
+                }else {
+                    //очистка от значка ошибки
+                    editDate.setError(null);
 
+                    //устанавливаем дату выбранную пользователем
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    calendar.set(Calendar.MONTH, monthOfYear);
+                    calendar.set(Calendar.YEAR, year);
+                    editDate.setText(dtDate.format((calendar.getTime())));
+                }
             }
 
 
