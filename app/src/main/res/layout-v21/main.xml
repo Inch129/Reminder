@@ -104,7 +104,6 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:hint="@string/description"
-        android:gravity="top"
         android:id="@+id/editDescription"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
